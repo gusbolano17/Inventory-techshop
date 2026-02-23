@@ -1,0 +1,41 @@
+spring:
+  config:
+    import:
+      optional:file:.env[.properties]
+  application:
+    name: ecommerce
+  datasource:
+    url: ${PSQLDB_URL}
+    username: ${PSQLDB_USERNAME}
+    password: ${PSQLDB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8090
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:4318/v1/metrics
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET}
+    expiration-time: ${JWT_EXPIRATION_TIME}
+    refresh-key: ${JWT_REFRESH_SECRET}
+    expiration-refresh-time: ${JWT_REFRESH_EXPIRATION_TIME}
