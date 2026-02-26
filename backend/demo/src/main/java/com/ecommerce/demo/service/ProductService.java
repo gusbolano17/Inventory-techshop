@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecommerce.demo.model.Brand;
 import com.ecommerce.demo.model.Category;
 import com.ecommerce.demo.model.Product;
 import com.ecommerce.demo.model.dto.ProductDTO;
@@ -19,6 +20,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BrandService brandService;
     @Autowired
     private CategoryService categoryService;
 
@@ -64,6 +67,9 @@ public class ProductService {
             Category category = categoryService.obtenerCategoria(body.categoria());
             product.setCategoryId(category);
 
+            Brand brand = brandService.obtenerMarcaNombre(body.brand());
+            product.setBrandId(brand);
+
             productRepository.save(product);
 
             resp.put("severity", "success");
@@ -93,6 +99,9 @@ public class ProductService {
 
             Category category = categoryService.obtenerCategoria(body.categoria());
             productoExist.setCategoryId(category);
+
+            Brand brand = brandService.obtenerMarcaNombre(body.brand());
+            productoExist.setBrandId(brand);
 
             productRepository.save(productoExist);
 
