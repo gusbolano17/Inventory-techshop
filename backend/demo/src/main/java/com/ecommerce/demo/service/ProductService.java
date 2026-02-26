@@ -31,6 +31,22 @@ public class ProductService {
                 .orElseThrow(() -> new Exception("Producto no encontrado"));
     }
 
+    public Map<String, Object> alertarStockBajo() throws Exception {
+        Map<String, Object> resp = new HashMap<>();
+        try {
+
+            List<Product> products = productRepository.productosStockBajo();
+            resp.put("severity", "warn");
+            resp.put("msg", "Estos productos estan con stock bajo");
+            resp.put("productos", products);
+
+        } catch (Exception e) {
+            resp.put("severity", "error");
+            resp.put("msg", e.getMessage());
+        }
+        return resp;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> crearProducto(ProductDTO body) throws Exception {
         Map<String, Object> resp = new HashMap<>();
@@ -105,4 +121,5 @@ public class ProductService {
         }
         return resp;
     }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.demo.model.dto.ProductDTO;
 import com.ecommerce.demo.service.ProductService;
 
+
 @RestController
 @CrossOrigin(origins = { "*" })
 @RequestMapping("/product")
@@ -32,6 +33,11 @@ public class ProductController {
     @GetMapping("/obtener/{id}")
     public ResponseEntity<?> obtenerProducto(@PathVariable("id") Long id) throws Exception {
         return ResponseEntity.ok(productService.obtenerProductoId(id));
+    }
+
+    @GetMapping("/alerta-stock")
+    public ResponseEntity<?> alertarStockBajo() throws Exception{
+        return ResponseEntity.ok(productService.alertarStockBajo());
     }
 
     @PostMapping("/agregar")

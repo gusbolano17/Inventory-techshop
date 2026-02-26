@@ -52,4 +52,14 @@ public class Product {
     @ManyToOne
     private Supplier supplierId;
 
+    public Boolean isLowStock() {
+        return stock != null && minStock != null && stock < minStock;
+    }
+
+    public void ajustarStock(Long cantidad){
+        if (cantidad != null) {
+            this.stock = (this.stock != null ? this.stock : 0L) + cantidad;
+        }
+    }
+
 }
