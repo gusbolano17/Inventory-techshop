@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.demo.model.dto.ProductDTO;
+import com.ecommerce.demo.model.dto.ProductFilterDTO;
 import com.ecommerce.demo.service.ProductService;
+
 
 
 @RestController
@@ -33,6 +36,19 @@ public class ProductController {
     @GetMapping("/obtener/{id}")
     public ResponseEntity<?> obtenerProducto(@PathVariable("id") Long id) throws Exception {
         return ResponseEntity.ok(productService.obtenerProductoId(id));
+    }
+
+    @GetMapping("/filtrar")
+    public ResponseEntity<?> filtrarProductos(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String sku,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String brand,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) throws Exception {
+        ProductFilterDTO filter = new ProductFilterDTO(name, sku, category, brand);
+        return ResponseEntity.ok(productService.filtrarProductos(filter, page, size));
     }
 
     @GetMapping("/alerta-stock")

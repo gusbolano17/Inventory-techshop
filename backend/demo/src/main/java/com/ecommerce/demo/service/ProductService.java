@@ -1,11 +1,18 @@
 package com.ecommerce.demo.service;
 
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +20,9 @@ import com.ecommerce.demo.model.Brand;
 import com.ecommerce.demo.model.Category;
 import com.ecommerce.demo.model.Product;
 import com.ecommerce.demo.model.dto.ProductDTO;
+import com.ecommerce.demo.model.dto.ProductFilterDTO;
 import com.ecommerce.demo.repository.ProductRepository;
+import com.ecommerce.demo.utils.specifications.ProductSpecification;
 
 @Service
 public class ProductService {
@@ -34,6 +43,22 @@ public class ProductService {
                 .orElseThrow(() -> new Exception("Producto no encontrado"));
     }
 
+    public Page<Product> filtrarProductos(ProductFilterDTO filter, Integer page, Integer size) throws Exception {
+        
+        Pageable pageable = PageRequest.of(page, size);
+        
+        Specification<Product> spec = Stream.of(
+                ProductSpecification.byName(filter.name()),
+                ProductSpecification.bySku(filter.sku()),
+                ProductSpecification.byCategoryName(filter.categoryName()),
+                ProductSpecification.bybrandName(filter.brandName())
+        ).filter(Objects::nonNull)
+        .reduce(Specification::and)
+        .orElse(null);
+
+        return productRepository.findAll(spec, pageable);
+    }
+    
     public Map<String, Object> alertarStockBajo() throws Exception {
         Map<String, Object> resp = new HashMap<>();
         try {
