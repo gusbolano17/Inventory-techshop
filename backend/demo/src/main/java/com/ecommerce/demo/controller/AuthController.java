@@ -14,7 +14,7 @@ import com.ecommerce.demo.service.AuthService;
 
 @RestController
 @CrossOrigin(origins={"*"})
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired

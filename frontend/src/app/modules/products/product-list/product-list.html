@@ -1,0 +1,94 @@
+<!-- Filtros de búsqueda -->
+<div class="bg-slate-700/50 rounded-lg p-4 mb-6">
+  <h3 class="text-white font-medium mb-4">Filtros de búsqueda</h3>
+  <form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Nombre -->
+    <div class="flex flex-col gap-1">
+      <label for="filterName" class="text-slate-400 text-sm">Nombre</label>
+      <input
+        type="text"
+        id="filterName"
+        placeholder="Buscar por nombre..."
+        class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        [formField]="filterForm.name"
+        (keyup.enter)="onFilter($event)"
+      >
+    </div>
+
+    <!-- SKU -->
+    <div class="flex flex-col gap-1">
+      <label for="filterSku" class="text-slate-400 text-sm">SKU</label>
+      <input
+        type="text"
+        id="filterSku"
+        placeholder="Buscar por SKU..."
+        class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        [formField]="filterForm.sku"
+        (keyup.enter)="onFilter($event)"
+      >
+    </div>
+
+    <!-- Categoría -->
+    <div class="flex flex-col gap-1">
+      <label for="filterCategory" class="text-slate-400 text-sm">Categoría</label>
+      <select
+        id="filterCategory"
+        class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        [formField]="filterForm.category"
+        (change)="onFilter($event)"
+      >
+        <option value="">Todas las categorías</option>
+        @for (category of categorias(); track category.id) {
+          <option value="{{ category.name }}">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Marca -->
+    <div class="flex flex-col gap-1">
+      <label for="filterBrand" class="text-slate-400 text-sm">Marca</label>
+      <select
+        id="filterBrand"
+        class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+        [formField]="filterForm.brand"
+        (change)="onFilter($event)"
+      >
+        <option value="">Todas las marcas</option>
+        @for (brand of brands(); track brand.id) {
+          <option value="{{ brand.name }}">{{ brand.name }}</option>
+        }
+      </select>
+    </div>
+  </form>
+</div>
+
+<!-- Tabla de productos -->
+<div class="overflow-x-auto">
+  <table class="w-full">
+    <thead class="bg-slate-700/50">
+      <tr>
+        <th class="px-4 py-3 text-left text-slate-400 text-sm font-medium">Nombre</th>
+        <th class="px-4 py-3 text-left text-slate-400 text-sm font-medium">SKU</th>
+        <th class="px-4 py-3 text-left text-slate-400 text-sm font-medium">Categoría</th>
+        <th class="px-4 py-3 text-center text-slate-400 text-sm font-medium">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-700">
+      @for (p of products(); track p.id){
+        <tr class="hover:bg-slate-700/30 transition-colors :nth-child(even):bg-slate-700/20">
+          <td class="px-5 py-4 text-white font-medium">{{ p.name }}</td>
+          <td class="px-5 py-4 text-white font-medium">{{ p.sku }}</td>
+          <td class="px-5 py-4 text-white font-medium">{{ p.categoryId.name }}</td>
+          <td class="flex justify-center mt-2 gap-2">
+            <button (click)="edit.emit(p.id)" class="bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors">
+              <span class="material-symbols-outlined">edit</span>
+            </button>
+            <button class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

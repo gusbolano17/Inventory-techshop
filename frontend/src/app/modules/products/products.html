@@ -1,0 +1,37 @@
+<div class="h-full flex justify-center items-start p-4 md:p-6 lg:p-8">
+  <div class="bg-slate-800 rounded-2xl shadow-lg p-4 md:p-6 w-full max-w-full md:max-w-4xl lg:max-w-5xl">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-white text-2xl font-semibold">Productos</h1>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-slate-700 mb-6">
+      <button
+        (click)="activeTab = 'list'"
+        class="px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px"
+        [ngClass]="activeTab === 'list'
+          ? 'text-teal-400 border-teal-400'
+          : 'text-slate-400 border-transparent hover:text-white'"
+      >
+        Lista
+      </button>
+      <button
+        (click)="activeTab = 'form'"
+        class="px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px"
+        [ngClass]="activeTab === 'form'
+          ? 'text-teal-400 border-teal-400'
+          : 'text-slate-400 border-transparent hover:text-white'"
+      >
+        {{ editingProductId ? 'Editar' : 'Nuevo' }}
+      </button>
+    </div>
+
+    <!-- Contenido -->
+    @if (activeTab === 'list') {
+      <app-product-list [categorias]="categorias()" [brands]="brands()" (edit)="editProduct($event)" />
+    } @else {
+      <app-product-form [categorias]="categorias()" [brands]="brands()" [productId]="editingProductId" (saved)="onSaved()" />
+    }
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="ml-15 p-6">
+  <!-- Metrics Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    @for (metric of metrics(); track metric.label) {
+      <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-slate-400 text-sm font-medium">{{ metric.label }}</span>
+          <span
+            class="material-symbols-outlined text-2xl"
+            [ngClass]="{
+              'text-teal-400': metric.color === 'teal',
+              'text-blue-400': metric.color === 'blue',
+              'text-purple-400': metric.color === 'purple',
+              'text-amber-400': metric.color === 'amber'
+            }"
+          >
+            {{ metric.icon }}
+          </span>
+        </div>
+        <p class="text-white text-2xl font-bold">{{ metric.value }}</p>
+      </div>
+    }
+  </div>
+
+  <!-- Movimientos Table -->
+  <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-lg overflow-hidden">
+    <div class="px-5 py-4 border-b border-slate-700">
+      <h2 class="text-white font-semibold text-lg">Últimos Movimientos</h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-slate-700/50">
+          <tr>
+            <th class="px-5 py-3 text-left text-slate-400 text-sm font-medium">Producto</th>
+            <th class="px-5 py-3 text-left text-slate-400 text-sm font-medium">Tipo</th>
+            <th class="px-5 py-3 text-left text-slate-400 text-sm font-medium">Cantidad</th>
+            <th class="px-5 py-3 text-left text-slate-400 text-sm font-medium">Fecha</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-700">
+          @for (mov of movimientos(); track mov.product) {
+            <tr class="hover:bg-slate-700/30 transition-colors">
+              <td class="px-5 py-4 text-white font-medium">{{ mov.product }}</td>
+              <td class="px-5 py-4">
+                <span
+                  class="px-2.5 py-1 rounded-full text-xs font-medium"
+                  [ngClass]="{
+                    'bg-teal-500/20 text-teal-400': mov.type === 'entrada',
+                    'bg-red-500/20 text-red-400': mov.type === 'salida'
+                  }"
+                >
+                  {{ mov.type === 'entrada' ? 'Entrada' : 'Salida' }}
+                </span>
+              </td>
+              <td class="px-5 py-4" [ngClass]="mov.type === 'entrada' ? 'text-teal-400' : 'text-red-400'">
+                {{ mov.type === 'entrada' ? '+' : '-' }}{{ mov.quantity }}
+              </td>
+              <td class="px-5 py-4 text-slate-400 text-sm">{{ mov.date }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

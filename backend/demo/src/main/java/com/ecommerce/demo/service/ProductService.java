@@ -83,8 +83,8 @@ public class ProductService {
             Product product = new Product();
             product.setName(body.name());
             product.setSku(body.sku());
-            product.setStock(body.stock());
-            product.setMinStock(5L);
+            product.setStock(0L);
+            product.setMinStock(body.minStock());
             product.setCostPrice(new BigDecimal(body.costPrice()));
             product.setSalePrice(new BigDecimal(body.salePrice()));
             product.setDescription(body.description());
@@ -116,8 +116,8 @@ public class ProductService {
             Product productoExist = obtenerProductoId(id);
             productoExist.setName(body.name());
             productoExist.setSku(body.sku());
-            productoExist.setStock(body.stock());
-            productoExist.setMinStock(5L);
+            productoExist.setStock(0L);
+            productoExist.setMinStock(body.minStock());
             productoExist.setCostPrice(new BigDecimal(body.costPrice()));
             productoExist.setSalePrice(new BigDecimal(body.salePrice()));
             productoExist.setDescription(body.description());

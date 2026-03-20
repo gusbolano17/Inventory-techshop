@@ -1,0 +1,45 @@
+<div class="h-screen flex justify-center items-center bg-linear-to-b from-slate-900 to-slate-800">
+  <div class="bg-slate-800 rounded-2xl shadow-lg p-6 w-96">
+    <h2 class="text-2xl font-semibold text-center mb-6 text-white">Iniciar sesión</h2>
+    <form (submit)="onSubmit($event)" >
+      <div class="mb-4">
+        <input type="email"
+               class="w-full border
+               text-white
+               border-gray-400 rounded-lg p-3 focus:outline-none
+               focus:ring-2 focus:ring-blue-500
+               transition-colors"
+               placeholder="Email"
+               [formField]="loginForm.email"
+        >
+        @if (loginForm.email().invalid() && loginForm.email().touched()) {
+          @for (error of loginForm.email().errors(); track error) {
+            <li class="text-red-500 text-sm mt-1 block">{{ error.message }}</li>
+          }
+        }
+      </div>
+      <div class="mb-4">
+        <input type="password"
+               class="w-full border
+               text-white
+               border-gray-400 rounded-lg p-3 focus:outline-none
+               focus:ring-2 focus:ring-blue-500
+               transition-colors"
+               placeholder="contraseña"
+               [formField]="loginForm.password"
+        >
+        @if (loginForm.password().invalid() && loginForm.password().touched()) {
+          @for (error of loginForm.password().errors(); track error) {
+            <li class="text-red-500 text-sm mt-1 block">{{ error.message }}</li>
+          }
+        }
+      </div>
+      <button class="w-full bg-blue-700 text-white rounded-lg p-3 hover:bg-blue-800 transition-colors">
+        Iniciar sesión
+      </button>
+    </form>
+    <a href="#" class="text-sm text-blue-700 hover:underline mt-4 block text-center">
+      ¿Olvidaste tu contraseña?
+    </a>
+  </div>
+</div>

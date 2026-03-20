@@ -1,0 +1,99 @@
+<form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" (submit)="onSubmit($event)">
+
+  <!-- Nombre -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="name" class="text-slate-300 text-sm font-medium">Nombre *</label>
+    <input type="text" id="name" placeholder="Harina 2X" [formField]="productForm.name" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+    @if (productForm.name().invalid() && productForm.name().touched()){
+      @for (error of productForm.name().errors(); track error) {
+        <li class="text-red-500 text-sm mt-1 block">{{ error.message }}</li>
+      }
+    }
+  </div>
+
+  <!-- SKU -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="sku" class="text-slate-300 text-sm font-medium">SKU *</label>
+    <input type="text" id="sku" placeholder="SKU-000" [formField]="productForm.sku" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+    @if (productForm.sku().invalid() && productForm.sku().touched()){
+      @for (error of productForm.sku().errors(); track error) {
+        <li class="text-red-500 text-sm mt-1 block">{{ error.message }}</li>
+      }
+    }
+  </div>
+
+  <!-- Marca -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="brand" class="text-slate-300 text-sm font-medium">Marca</label>
+    <select id="brand" [formField]="productForm.brand" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+      <option value="">Seleccione una marca</option>
+      @for (brand of brands(); track brand.id) {
+        <option value="{{ brand.name }}">{{ brand.name }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Categoría -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="category" class="text-slate-300 text-sm font-medium">Categoría</label>
+    <select id="category" [formField]="productForm.categoria" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+      <option value="">Seleccione una categoría</option>
+      @for (category of categorias(); track category.id) {
+        <option value="{{ category.name }}">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Costo -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="costPrice" class="text-slate-300 text-sm font-medium">Costo</label>
+    <input type="number" id="costPrice" [formField]="productForm.costPrice" placeholder="0.00" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+  </div>
+
+  <!-- Precio Venta -->
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="salePrice" class="text-slate-300 text-sm font-medium">Precio de Venta</label>
+    <input type="number" id="salePrice" [formField]="productForm.salePrice" placeholder="0.00" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+  </div>
+
+  <div class="mb-2 flex flex-col gap-2">
+    <label for="minStock" class="text-slate-300 text-sm font-medium">Stock Minimo</label>
+    <input type="number" [formField]="productForm.minStock" id="minStock" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+  </div>
+
+  <!-- Descripción -->
+  <div class="mb-2 flex flex-col gap-2 md:col-span-2 lg:col-span-4">
+    <label for="description" class="text-slate-300 text-sm font-medium">Descripción</label>
+    <textarea id="description" rows="3" placeholder="Descripción del producto..." [formField]="productForm.description" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors resize-none"></textarea>
+  </div>
+
+  <!-- Solo modo edición -->
+  @if (productId()) {
+    <!-- Estado -->
+<!--    <div class="mb-2 flex flex-col gap-2">-->
+<!--      <label for="active" class="text-slate-300 text-sm font-medium">Estado</label>-->
+<!--      <select [formField]="productForm.active"  id="active" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">-->
+<!--        <option value="true">{{true}}</option>-->
+<!--        <option value="false">{{false}}</option>-->
+<!--      </select>-->
+<!--    </div>-->
+
+    <!-- Stock Actual (solo lectura) -->
+    <div class="mb-2 flex flex-col gap-2">
+      <label for="stock" class="text-slate-300 text-sm font-medium">Stock Actual</label>
+      <input type="text" id="stock" value="0" disabled class="w-full bg-slate-600 border border-slate-600 text-slate-400 rounded-lg p-3 cursor-not-allowed">
+    </div>
+
+  }
+
+  <div class="mb-2 flex flex-col gap-2">
+    <button type="submit" class="w-full bg-teal-500 text-white rounded-lg p-3 hover:bg-teal-600 transition-colors">
+      @if (productId()) {
+        Guardar Cambios
+      } @else {
+        Crear Producto
+      }
+    </button>
+  </div>
+
+</form>

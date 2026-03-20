@@ -22,7 +22,7 @@ import com.ecommerce.demo.service.ProductService;
 
 @RestController
 @CrossOrigin(origins = { "*" })
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 
     @Autowired
