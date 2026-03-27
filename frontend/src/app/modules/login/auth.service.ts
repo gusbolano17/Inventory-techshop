@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
@@ -9,8 +9,13 @@ import { Environment } from '../../core/Environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private http: HttpClient = inject(HttpClient);
-  private router: Router = inject(Router);
+  private http: HttpClient;
+  private router: Router;
+
+  constructor(http: HttpClient, router: Router) {
+    this.http = http;
+    this.router = router;
+  }
 
   isAuthenticated = signal<boolean>(!!sessionStorage.getItem('accessToken'));
 
@@ -27,8 +32,7 @@ export class AuthService {
   logout(body: { refreshToken?: string } = {}) {
     return this.http.post(`${Environment.API_URL}/auth/logout`, body).pipe(
       tap(() => {
-        sessionStorage.removeItem('accessToken');
-        sessionStorage.removeItem('refreshToken');
+        sessionStorage.clear();
         this.isAuthenticated.set(false);
         this.router.navigate(['/login']);
       }),

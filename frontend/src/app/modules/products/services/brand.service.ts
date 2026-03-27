@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Brand } from '../entities/brand.model';
 })
 export class BrandService {
 
-  private http: HttpClient = inject(HttpClient);
+  constructor(private http: HttpClient) {}
 
   listarMarcas(): Observable<Brand[]> {
     return this.http.get<Brand[]>(`${Environment.API_URL}/brands/listar`);
