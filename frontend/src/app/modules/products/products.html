@@ -29,7 +29,7 @@
 
     <!-- Contenido -->
     @if (activeTab === 'list') {
-      <app-product-list [categorias]="categorias()" [brands]="brands()" (edit)="editProduct($event)" />
+      <app-product-list [categorias]="categorias()" [brands]="brands()" (edit)="editProduct($event)"/>
     } @else {
       <app-product-form [categorias]="categorias()" [brands]="brands()" [productId]="editingProductId" (saved)="onSaved()" />
     }

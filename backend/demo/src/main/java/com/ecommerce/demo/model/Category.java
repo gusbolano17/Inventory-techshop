@@ -22,6 +22,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
     private boolean active = true;
     @Column(name = "created_at")
     private Timestamp createdAt;

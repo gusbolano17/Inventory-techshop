@@ -13,5 +13,9 @@ export const MainRoutes : Routes = [
   {
     path: 'products',
     loadChildren: () => import('./products/product.routes').then(m => m.ProductRoutes)
+  },
+  {
+    path: 'categories',
+    loadComponent: () => import('./categories/categories').then(m => m.Categories)
   }
 ];

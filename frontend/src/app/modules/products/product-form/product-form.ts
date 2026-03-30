@@ -4,6 +4,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { Category } from '../../categories/category';
 import { Brand } from '../entities/brand.model';
 import { ProductService } from '../services/product.service';
+import { ProductModel } from '../entities/product.model';
 
 @Component({
   selector: 'app-product-form',
@@ -19,8 +20,10 @@ export class ProductForm implements OnInit {
   public saved = output<void>();
 
   private productService = inject(ProductService);
+  
+  public currentStock = signal<number>(0);
 
-  private productModel = signal<ProductDto>({
+  public productModel = signal<ProductDto>({
     name: '',
     brand: '',
     description: '',
@@ -28,7 +31,7 @@ export class ProductForm implements OnInit {
     sku: '',
     salePrice: 0,
     costPrice: 0,
-    minStock : 0,
+    minStock: 0,
     active: true,
   });
 
@@ -42,27 +45,48 @@ export class ProductForm implements OnInit {
 
   ngOnInit() {
     if (!this.productId()) return;
-    this.productService.obtenerProducto(this.productId()).subscribe((resp) => {
-      this.productModel.set({
-        ...resp,
-        categoria : resp.categoryId.name,
-        brand : resp.brandId.name
-      })
-    })
+    
+    this.productService.obtenerProducto(this.productId()!).subscribe({
+      next: (resp: ProductModel) => {
+        this.productModel.set({
+          name: resp.name,
+          brand: resp.brandId?.name || resp.brand || '',
+          description: resp.description || '',
+          categoria: resp.categoryId?.name || resp.categoria || '',
+          sku: resp.sku,
+          salePrice: resp.salePrice,
+          costPrice: resp.costPrice,
+          minStock: resp.minStock || 0,
+          active: resp.active,
+        });
+        this.currentStock.set(resp.stock || 0);
+      },
+      error: (err) => {
+        console.error('Error cargando producto:', err);
+      }
+    });
   }
+
+  onActiveChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.productModel.update(model => ({
+      ...model,
+      active: target.value === 'true'
+    }));
+  }
+
   onSubmit(e: Event) {
     e.preventDefault();
-    if (this.productId()){
+    
+    if (this.productId()) {
       this.productService.editarProducto(this.productId()!, this.productModel()).subscribe({
-        next: () => {
-          this.saved.emit();
-        },
-      })
-    }else{
+        next: () => this.saved.emit(),
+        error: (err) => console.error('Error editando:', err)
+      });
+    } else {
       this.productService.guardarProducto(this.productModel()).subscribe({
-        next: () => {
-          this.saved.emit();
-        },
+        next: () => this.saved.emit(),
+        error: (err) => console.error('Error guardando:', err)
       });
     }
   }

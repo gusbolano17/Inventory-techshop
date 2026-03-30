@@ -75,7 +75,7 @@
     </thead>
     <tbody class="divide-y divide-slate-700">
       @for (p of products(); track p.id){
-        <tr class="hover:bg-slate-700/30 transition-colors :nth-child(even):bg-slate-700/20">
+        <tr class="hover:bg-slate-700/30 transition-colors even:bg-slate-700/20">
           <td class="px-5 py-4 text-white font-medium">{{ p.name }}</td>
           <td class="px-5 py-4 text-white font-medium">{{ p.sku }}</td>
           <td class="px-5 py-4 text-white font-medium">{{ p.categoryId.name }}</td>
@@ -83,9 +83,15 @@
             <button (click)="edit.emit(p.id)" class="bg-teal-500 text-white px-3 py-1 rounded-lg hover:bg-teal-600 transition-colors">
               <span class="material-symbols-outlined">edit</span>
             </button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors">
+            <button (click)="deleteProduct(p.id)" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors">
               <span class="material-symbols-outlined">delete</span>
             </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3" class="px-5 py-8 text-center text-slate-400">
+            No hay productos registrados
           </td>
         </tr>
       }

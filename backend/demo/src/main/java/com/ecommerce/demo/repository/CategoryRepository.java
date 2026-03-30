@@ -11,5 +11,7 @@ import com.ecommerce.demo.model.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long>{
 
     Optional<Category> findByName(String name) throws Exception;
+
+    boolean existsByName(String name) throws Exception;
     
 }
