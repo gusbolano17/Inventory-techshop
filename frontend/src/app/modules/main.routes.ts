@@ -17,5 +17,9 @@ export const MainRoutes : Routes = [
   {
     path: 'categories',
     loadComponent: () => import('./categories/categories').then(m => m.Categories)
+  },
+  {
+    path: 'suppliers',
+    loadComponent: () => import('./suppliers/suppliers').then(m => m.Suppliers)
   }
 ];

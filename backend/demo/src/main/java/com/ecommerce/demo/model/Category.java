@@ -2,7 +2,8 @@ package com.ecommerce.demo.model;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,6 @@ public class Category {
     private String name;
     private String description;
     private boolean active = true;
-    @Column(name = "created_at")
+    @CreationTimestamp
     private Timestamp createdAt;
-
 }

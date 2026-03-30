@@ -1,0 +1,103 @@
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6" (submit)="onSubmit($event)">
+  <!-- Nombre -->
+  <div class="flex flex-col gap-2">
+    <label for="name" class="text-slate-300 text-sm font-medium">Nombre *</label>
+    <input
+      type="text"
+      id="name"
+      placeholder="Nombre del proveedor"
+      [formField]="supplierForm.name"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+    @if (supplierForm.name().invalid() && supplierForm.name().touched()){
+      @for (error of supplierForm.name().errors(); track error) {
+        <span class="text-red-500 text-sm">{{ error.message }}</span>
+      }
+    }
+  </div>
+
+  <!-- Tax ID -->
+  <div class="flex flex-col gap-2">
+    <label for="taxId" class="text-slate-300 text-sm font-medium">Tax ID *</label>
+    <input
+      type="text"
+      id="taxId"
+      placeholder="NIT/RUC"
+      [formField]="supplierForm.taxId"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+    @if (supplierForm.taxId().invalid() && supplierForm.taxId().touched()){
+      @for (error of supplierForm.taxId().errors(); track error) {
+        <span class="text-red-500 text-sm">{{ error.message }}</span>
+      }
+    }
+  </div>
+
+  <!-- Email -->
+  <div class="flex flex-col gap-2">
+    <label for="email" class="text-slate-300 text-sm font-medium">Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="email@ejemplo.com"
+      [formField]="supplierForm.email"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+    @if (supplierForm.email().invalid() && supplierForm.email().touched()){
+      @for (error of supplierForm.email().errors(); track error) {
+        <span class="text-red-500 text-sm">{{ error.message }}</span>
+      }
+    }
+  </div>
+
+  <!-- Teléfono -->
+  <div class="flex flex-col gap-2">
+    <label for="phone" class="text-slate-300 text-sm font-medium">Teléfono</label>
+    <input
+      type="tel"
+      id="phone"
+      placeholder="+502 1234-5678"
+      [formField]="supplierForm.phone"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+  </div>
+
+  <!-- Dirección -->
+  <div class="flex flex-col gap-2 md:col-span-2">
+    <label for="address" class="text-slate-300 text-sm font-medium">Dirección</label>
+    <input
+      type="text"
+      id="address"
+      placeholder="Dirección completa"
+      [formField]="supplierForm.address"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+  </div>
+
+  <!-- Persona de Contacto -->
+  <div class="flex flex-col gap-2 md:col-span-2">
+    <label for="contactName" class="text-slate-300 text-sm font-medium">Persona de Contacto</label>
+    <input
+      type="text"
+      id="contactName"
+      placeholder="Nombre del contacto"
+      [formField]="supplierForm.contactName"
+      class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
+    >
+    @if (supplierForm.contactName().invalid() && supplierForm.contactName().touched()){
+      @for (error of supplierForm.contactName().errors(); track error) {
+        <span class="text-red-500 text-sm">{{ error.message }}</span>
+      }
+    }
+  </div>
+
+  <!-- Botón guardar -->
+  <div class="md:col-span-2">
+    <button
+      type="submit"
+      class="w-full bg-teal-500 text-white rounded-lg p-3 hover:bg-teal-600 transition-colors font-medium"
+    >
+      {{ supplierId() ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </div>
+</form>
