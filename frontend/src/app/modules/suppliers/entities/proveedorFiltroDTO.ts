@@ -1,8 +1,7 @@
 export interface ProveedorFiltroDTO {
   name: string;
-  taxid: string;
-  activo: boolean;
-  brand: string;
+  taxId: string;
+  active: boolean;
   page: number;
   size: number;
 }

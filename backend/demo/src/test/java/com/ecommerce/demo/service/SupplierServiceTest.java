@@ -1,18 +1,23 @@
 package com.ecommerce.demo.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ecommerce.demo.model.Supplier;
@@ -84,7 +89,8 @@ class SupplierServiceTest {
 
     @Test
     void crearProveedor_shouldCreateNewSupplier() throws Exception {
-        SupplierDto dto = new SupplierDto("New Supplier", "9999999-9", "new@supplier.com", "+50299999999", "New Address", "New Contact");
+        SupplierDto dto = new SupplierDto("New Supplier", "9999999-9", "new@supplier.com", "+50299999999",
+                "New Address", "New Contact");
         when(supplierRepository.save(any(Supplier.class))).thenReturn(testSupplier);
 
         Map<String, Object> result = supplierService.crearProveedor(dto);
@@ -106,7 +112,8 @@ class SupplierServiceTest {
 
     @Test
     void editarProveedor_shouldUpdateExistingSupplier() throws Exception {
-        SupplierDto dto = new SupplierDto("Updated Supplier", "1111111-1", "updated@supplier.com", "+50211111111", "Updated Address", "Updated Contact");
+        SupplierDto dto = new SupplierDto("Updated Supplier", "1111111-1", "updated@supplier.com", "+50211111111",
+                "Updated Address", "Updated Contact");
         when(supplierRepository.findById(1L)).thenReturn(Optional.of(testSupplier));
         when(supplierRepository.save(any(Supplier.class))).thenReturn(testSupplier);
 
@@ -127,9 +134,22 @@ class SupplierServiceTest {
     }
 
     @Test
-    void eliminarProveedor_shouldReturnMessage() throws Exception {
+    void eliminarProveedor_shouldDeleteSupplier() throws Exception {
+        when(supplierRepository.findById(1L)).thenReturn(Optional.of(testSupplier));
+
         Map<String, Object> result = supplierService.eliminarProveedor(1L);
 
         assertNotNull(result);
+        assertEquals("Proveedor eliminado exitosamente", result.get("msg"));
+        verify(supplierRepository).delete(testSupplier);
     }
+
+    @Test
+    void eliminarProveedor_shouldThrowExceptionWhenSupplierNotFound() throws Exception {
+        when(supplierRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, () -> supplierService.eliminarProveedor(999L));
+    }
+
+
 }

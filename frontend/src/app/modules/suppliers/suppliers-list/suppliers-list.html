@@ -10,9 +10,8 @@
         id="filterName"
         placeholder="Buscar por nombre..."
         class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-        [ngModel]="filterName()"
-        (ngModelChange)="filterName.set($event); onFilterChange()"
-        name="filterName"
+        [formField]="filterForm.name"
+        (keyup.enter)="onFilter($event)"
       >
     </div>
 
@@ -24,9 +23,8 @@
         id="filterTaxId"
         placeholder="NIT/RUC..."
         class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-        [ngModel]="filterTaxId()"
-        (ngModelChange)="filterTaxId.set($event); onFilterChange()"
-        name="filterTaxId"
+        [formField]="filterForm.taxId"
+        (keyup.enter)="onFilter($event)"
       >
     </div>
 
@@ -36,9 +34,7 @@
       <select
         id="filterActive"
         class="bg-slate-700 border border-slate-600 text-white rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-        [ngModel]="filterActive()"
-        (ngModelChange)="filterActive.set($event); onFilterChange()"
-        name="filterActive"
+        (change)="onActiveChange($event)"
       >
         <option value="">Todos</option>
         <option value="true">Activo</option>

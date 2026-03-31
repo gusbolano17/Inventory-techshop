@@ -31,6 +31,12 @@ public class SupplierController {
         return ResponseEntity.ok(supplierService.listarProveedores());
     }
 
+    @GetMapping("/obtener/{id}")
+    public ResponseEntity<?> obtenerProveedorId(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(supplierService.obtenerProveedorId(id));
+    }
+    
+
     @GetMapping("/filtrar")
     public ResponseEntity<?> filtrarProductos(
             @RequestParam(required = false) String name,
@@ -54,6 +60,6 @@ public class SupplierController {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarProveedor(@PathVariable Long id) throws Exception {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(supplierService.eliminarProveedor(id));
     }
 }

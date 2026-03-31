@@ -83,7 +83,8 @@ public class SupplierService {
 
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> eliminarProveedor(Long id) throws Exception {
-        // TODO: implementar logica
-        return Map.of();
+        Supplier supplierExist = obtenerProveedorId(id);
+        supplierRepository.delete(supplierExist);
+        return Map.of("msg", "Proveedor eliminado exitosamente");
     }
 }
